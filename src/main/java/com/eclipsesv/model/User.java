@@ -1,26 +1,51 @@
 package com.eclipsesv.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * Created by eclipse on 16/8/30.
  */
+@Entity
+@Table(name = "USERS")
 public class User {
-    private int userId;
+
+    @Id
+    @Column(name = "USER_ID")
+    private String userId;
+
+    @Column(name = "USER_NAME",nullable = false)
     private String userName;
+
+    @Column(name = "PASSWORD",nullable = false)
     private String password;
+
+    @Column(name = "EMAIL",nullable = false)
     private String email;
+
+    @Column(name = "CREATEDTIME",nullable = false)
     private Date createdDate;
+
+    @Column(name = "SEX")
     private int sex;
+
+    @Column(name = "TITLE")
     private String title;
+
+    @Column(name = "TEL")
     private int tel;
+
+    @Column(name = "DEPARTMENT")
     private int department;
 
     public User(){
 
     }
 
-    public User(int userid, String username, String password, String email, Date createddate, int sex,
+    public User(String userid, String username, String password, String email, Date createddate, int sex,
                 String title, int tel, int department) {
         this.userId = userid;
         this.userName = username;
@@ -33,11 +58,11 @@ public class User {
         this.department = department;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
