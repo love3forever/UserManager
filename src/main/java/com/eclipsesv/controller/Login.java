@@ -20,7 +20,7 @@ import java.util.UUID;
 public class Login {
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(){
-        return "index";
+        return "main";
     }
 
     @RequestMapping(value = "/",method = RequestMethod.POST)
