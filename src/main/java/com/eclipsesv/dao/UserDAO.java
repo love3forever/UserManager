@@ -9,4 +9,6 @@ public interface UserDAO {
     void saveUser(User user);
 
     void deleteUser(User user);
+
+    User findByName(String username);
 }

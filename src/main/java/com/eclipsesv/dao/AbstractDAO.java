@@ -1,5 +1,7 @@
 package com.eclipsesv.dao;
 
+import com.eclipsesv.model.User;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +23,9 @@ public abstract class AbstractDAO {
 
     public void delete(Object Entity){
         getSession().delete(Entity);
+    }
+
+    public User getRolesName(String username){
+        return null;
     }
 }

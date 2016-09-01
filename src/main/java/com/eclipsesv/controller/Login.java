@@ -2,9 +2,11 @@ package com.eclipsesv.controller;
 
 import com.eclipsesv.dao.UserDAOImpl;
 import com.eclipsesv.model.User;
+import com.eclipsesv.shiro.ShiroConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,8 +21,9 @@ import java.util.UUID;
 @Transactional
 public class Login {
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String index(){
-        return "main";
+    public String index(Model model){
+        model.addAttribute("user",new User());
+        return "redirect:" + ShiroConfiguration.loginUrl;
     }
 
     @RequestMapping(value = "/",method = RequestMethod.POST)
@@ -43,6 +46,24 @@ public class Login {
         User user = new User();
         model.addAttribute("user", user);
         return "register";
+    }
+
+    @RequestMapping(value = "/cas",method = RequestMethod.POST)
+    public String casLogin(String username,ModelMap model){
+        System.out.println(username);
+        model.addAttribute("username", username);
+        return "group";
+    }
+
+
+    @RequestMapping(value = "/403", method = RequestMethod.GET)
+    public String noaut() {
+        return "403";
+    }
+
+    @RequestMapping(value = "/200", method = RequestMethod.GET)
+    public String success() {
+        return "200";
     }
 
     @Autowired
