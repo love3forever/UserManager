@@ -18,3 +18,4 @@ UserManager.iml
 target/
 *.ipr
 *.iws
+src/main/webapp/static/img/

@@ -28,11 +28,10 @@
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">down
 									<span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li><a href="#">1</a></li>
-									<li><a href="#">1</a></li>
-									<li><a href="#">1</a></li>
-									<li><a href="#">1</a></li>
-									<li><a href="#">1</a></li>
+									<li><a th:text="|当前登录用户: ${user.userName}|" href="#"></a></li>
+									<li class="divider"></li>
+									<li><a href="#">登出</a></li>
+									<li><a href="#">设置</a></li>
 								</ul>
 							</li>
 						</ul>

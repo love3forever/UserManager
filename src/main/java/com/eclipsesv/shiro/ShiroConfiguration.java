@@ -33,7 +33,7 @@ public class ShiroConfiguration {
 
     public static final String casLogoutUrl = casServerUrlPerfix + "/logout";
 
-    public static final String shiroServerUrlPerfix = "http://cas.eclipsesv.com:9000/200";
+    public static final String shiroServerUrlPerfix = "http://cas.eclipsesv.com:9000/cas";
 
     public static final String casFilterUrlPattern = "/shiro-cas";
 
@@ -69,16 +69,20 @@ public class ShiroConfiguration {
         /////////////////////// 下面这些规则配置最好配置到配置文件中 ///////////////////////
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 
-        filterChainDefinitionMap.put("/200/"+casFilterUrlPattern, "casFilter");// shiro集成cas后，首先添加该规则
+        filterChainDefinitionMap.put("/cas"+casFilterUrlPattern, "casFilter");// shiro集成cas后，首先添加该规则
 
         // authc：该过滤器下的页面必须验证后才能访问，它是Shiro内置的一个拦截器org.apache.shiro.web.filter.authc.FormAuthenticationFilter
-        filterChainDefinitionMap.put("/register", "authc");// 这里为了测试，只限制/user，实际开发中请修改为具体拦截的请求规则
+
         // anon：它对应的过滤器里面是空的,什么都没做
         logger.info("##################从数据库读取权限规则，加载到shiroFilter中##################");
+        filterChainDefinitionMap.put("/", "authc");
+        filterChainDefinitionMap.put("/200", "authc");
+        filterChainDefinitionMap.put("/403", "authc");
         filterChainDefinitionMap.put("/user/edit/**", "authc,perms[user:edit]");// 这里为了测试，固定写死的值，也可以从数据库或其他配置中读取
 
         filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/**", "anon");//anon 可以理解为不拦截
+//        filterChainDefinitionMap.put("/**", "anon");//anon 可以理解为不拦截
+        filterChainDefinitionMap.put("/register", "anon");// 这里为了测试，只限制/user，实际开发中请修改为具体拦截的请求规则
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
     }
@@ -141,7 +145,7 @@ public class ShiroConfiguration {
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl(loginUrl);
         // 登录成功后要跳转的连接
-        shiroFilterFactoryBean.setSuccessUrl("/register");
+        shiroFilterFactoryBean.setSuccessUrl("/");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         // 添加casFilter到shiroFilter中
         Map<String, Filter> filters = new HashMap<>();
