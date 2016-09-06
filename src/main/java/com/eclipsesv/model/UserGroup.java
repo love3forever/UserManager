@@ -12,7 +12,7 @@ import java.util.Date;
  * Created by eclipse on 16/9/5.
  */
 @Entity
-@Table(name = "Group")
+@Table(name = "USER_GROUP")
 public class UserGroup {
     @Id
     @Column(name = "GROUP_ID", nullable = false)

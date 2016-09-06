@@ -1,7 +1,11 @@
 package com.eclipsesv.controller;
 
+import com.eclipsesv.dao.GroupDAOImpl;
+import com.eclipsesv.dao.GroupUserDAOImpl;
 import com.eclipsesv.dao.UserDAOImpl;
+import com.eclipsesv.model.Groups;
 import com.eclipsesv.model.User;
+import com.eclipsesv.model.UserGroup;
 import com.eclipsesv.shiro.MyShiroCasReaml;
 import com.eclipsesv.shiro.ShiroConfiguration;
 import org.apache.shiro.SecurityUtils;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -42,6 +47,10 @@ public class Login {
                 System.out.println(loginUser.getUserId());
             }
             model.addAttribute("user", loginUser);
+            List<Groups> glist = groupUserDAOImpl.listGroup(loginUser.getUserId());
+            model.addAttribute("groups", glist);
+            Groups newgroup = new Groups();
+            model.addAttribute("newgroup", newgroup);
             return "main";
         }
         else
@@ -100,7 +109,40 @@ public class Login {
         return "200";
     }
 
+
+    @RequestMapping(value = "/newgroup",method = RequestMethod.POST)
+    public String newGroup(ModelMap model,Groups groups) {
+        Subject currentUser = SecurityUtils.getSubject();
+        PrincipalCollection principals = currentUser.getPrincipals();
+        String username = (String) principals.getPrimaryPrincipal();
+        User loginUser = userDAOImpl.findByName(username);
+        Groups newgroup = new Groups();
+        newgroup.setGroupName(groups.getGroupName());
+        UUID uuid = UUID.randomUUID();
+        newgroup.setGroupID(uuid.toString());
+        newgroup.setCreatorID(loginUser.getUserId());
+        newgroup.setCreatedTime(new Date());
+        newgroup.setDescribe(groups.getDescribe());
+        groupDAOImpl.newGroup(newgroup);
+        System.out.println("创建分组:"+newgroup.getGroupName());
+
+        UserGroup userGroup = new UserGroup();
+        userGroup.setUserName(loginUser.getUserId());
+        userGroup.setGroupID(uuid.toString());
+        userGroup.setJoinDate(new Date());
+        userGroup.setRole("admin");
+        groupUserDAOImpl.addMember(userGroup);
+        System.out.println("创建分组用户:"+loginUser.getUserName());
+        return "redirect:/";
+    }
+
     @Autowired
     private UserDAOImpl userDAOImpl;
+
+    @Autowired
+    private GroupUserDAOImpl groupUserDAOImpl;
+
+    @Autowired
+    private GroupDAOImpl groupDAOImpl;
 
 }

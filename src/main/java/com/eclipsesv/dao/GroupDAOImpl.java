@@ -4,10 +4,12 @@ import com.eclipsesv.model.Groups;
 import com.eclipsesv.dao.AbstractPublicDAO;
 import com.eclipsesv.model.User;
 import org.hibernate.Query;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by eclipse on 16/9/6.
  */
+@Repository("groupDAO")
 public class GroupDAOImpl extends AbstractPublicDAO implements GroupDAO {
     @Override
     public void newGroup(Groups groups) {

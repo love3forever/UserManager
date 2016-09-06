@@ -1,5 +1,6 @@
 package com.eclipsesv.dao;
 
+import com.eclipsesv.model.Groups;
 import com.eclipsesv.model.User;
 import com.eclipsesv.model.UserGroup;
 
@@ -16,4 +17,6 @@ public interface GroupUserDAO {
     void modifyMember(String userid, String groupid, String roleid);
 
     List<User> listMember(String groupid);
+
+    List<Groups> listGroup(String userid);
 }
