@@ -2,6 +2,7 @@ package com.eclipsesv.shiro;
 
 import com.eclipsesv.dao.UserDAO;
 import com.eclipsesv.model.User;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.cas.CasRealm;
@@ -59,6 +60,26 @@ public class MyShiroCasReaml extends CasRealm{
         info.setRoles(roles);
         return info;
     }
+
+    /**
+     * 登录认证
+     */
+//    @Override
+//    protected AuthenticationInfo doGetAuthenticationInfo(
+//            AuthenticationToken authenticationToken) throws AuthenticationException {
+//        //UsernamePasswordToken对象用来存放提交的登录信息
+//        UsernamePasswordToken token=(UsernamePasswordToken) authenticationToken;
+//
+//        //logger.info("验证当前Subject时获取到token为：" + ReflectionToStringBuilder.toString(token, ToStringStyle.MULTI_LINE_STYLE));
+//
+//        //查出是否有此用户
+//        User user=userDao.findByName(token.getUsername());
+//        if(user!=null){
+//            // 若存在，将此用户存放到登录认证info中，无需自己做密码对比，Shiro会为我们进行密码对比校验
+//            return new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), getName());
+//        }
+//        return null;
+//    }
 
 
 }

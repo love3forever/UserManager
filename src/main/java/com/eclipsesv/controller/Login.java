@@ -5,6 +5,7 @@ import com.eclipsesv.model.User;
 import com.eclipsesv.shiro.MyShiroCasReaml;
 import com.eclipsesv.shiro.ShiroConfiguration;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.cas.CasRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -70,6 +71,14 @@ public class Login {
         return "register";
     }
 
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String casLogout() {
+        Subject current_user = SecurityUtils.getSubject();
+        current_user.logout();
+        System.out.println("Logout");
+        return "redirect:" + ShiroConfiguration.casLogoutUrl;
+    }
 
 
 
