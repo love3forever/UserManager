@@ -1,52 +1,58 @@
 package com.eclipsesv.dao;
 
+import com.eclipsesv.model.Groups;
+import com.eclipsesv.dao.AbstractPublicDAO;
 import com.eclipsesv.model.User;
-import com.eclipsesv.model.UserGroup;
 import org.hibernate.Query;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Created by eclipse on 16/9/6.
  */
-@Repository("groupuserDAO")
-public class GroupDAOImpl extends AbstractGroupDAO implements GroupDAO{
+public class GroupDAOImpl extends AbstractPublicDAO implements GroupDAO {
     @Override
-    public void saveGroup(UserGroup group) {
-        getSession().persist(group);
+    public void newGroup(Groups groups) {
+        getSession().persist(groups);
     }
 
     @Override
-    public void deleteGroup(String groupID) {
-        Query query= getSession().
-                createQuery("from UserGroup where GROUP_ID=:id");
-        query.setParameter("id", groupID);
-        UserGroup result = (UserGroup) query.uniqueResult();
-        getSession().delete(result);
-    }
-
-    @Override
-    public void deleteMember(String groupID, String userID) {
-        Query query = getSession().
-                createQuery("DELETE FROM UserGroup where Group_ID=:id and USER_ID=:userid");
-        query.setParameter("id", groupID);
-        query.setParameter("userid", userID);
+    public void delGroup(String groupid) {
+        Query groupqury = getSession().createQuery("DELETE FROM UserGroup WHERE GROUP_ID=:id");
+        groupqury.setParameter("id", groupid);
+        groupqury.executeUpdate();
+        Query query = getSession().createQuery("DELETE FROM Groups WHERE GROUP_ID=:id");
+        query.setParameter("id", groupid);
         query.executeUpdate();
     }
 
     @Override
-    public void addMember(String groupID, String userID) {
-
+    public Groups findByID(String groupid) {
+        Query query= getSession().
+                createQuery("from Groups where GROUP_ID=:id");
+        query.setParameter("id", groupid);
+        Groups result = (Groups) query.uniqueResult();
+        return result;
     }
 
     @Override
-    public List<User> listMember(String groupID) {
-        return null;
+    public Groups findByCreator(String userid) {
+        Query query= getSession().
+                createQuery("from Groups where CREATOR=:id");
+        query.setParameter("id", userid);
+        Groups result = (Groups) query.uniqueResult();
+        return result;
     }
 
     @Override
-    public List<UserGroup> listGroup(String userID) {
-        return null;
+    public User getGroupCreator(String groupid) {
+        Query query = getSession().
+                createQuery("from Groups where GROUP_ID=:id");
+        query.setParameter("id", groupid);
+        Groups result = (Groups) query.uniqueResult();
+        String uid = result.getCreatorID();
+
+        Query uquery = getSession().createQuery("FROM User WHERE USER_ID=:uid");
+        uquery.setParameter("uid", uid);
+        User user = (User) query.uniqueResult();
+        return user;
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Created by eclipse on 16/9/6.
  */
-public abstract class AbstractGroupDAO {
+public abstract class AbstractPublicDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
