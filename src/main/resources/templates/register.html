@@ -11,7 +11,7 @@
 				<div class="page-header">
 					<h1>用户管理 <small>用户注册</small></h1>
 				</div>
-				<form method="POST" th:action="@{/}" th:object="${user}">
+				<form method="POST" th:action="@{/register}" th:object="${user}">
 					<div class="form-group">
 						<label for="username">用户名</label>
 						<input type="text" th:field="*{userName}" class="form-control" id="username" placeholder="用户名"></input>

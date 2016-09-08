@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by eclipse on 16/8/30.
@@ -40,6 +42,7 @@ public class User {
 
     @Column(name = "DEPARTMENT")
     private int department;
+
 
     public User(){
 
@@ -128,5 +131,14 @@ public class User {
 
     public void setDepartment(int department) {
         this.department = department;
+    }
+
+    public Set<String> getRolesName() {
+        Set<String> roles = new HashSet<String>();
+        roles.add("admin");
+        roles.add("manager");
+        roles.add("normal");
+
+        return roles;
     }
 }
