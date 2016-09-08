@@ -46,9 +46,11 @@ public class GroupUserDAOImpl extends AbstractPublicDAO implements GroupUserDAO 
         List<User> users = new ArrayList<>();
         for (Object uid:
              userid) {
+            UserGroup ug = (UserGroup) uid;
             Query uquery = getSession().createQuery("FROM User WHERE USER_ID=:uid");
-            uquery.setParameter("uid", (String) uid);
-            User result = (User) query.uniqueResult();
+            uquery.setParameter("uid", (String) ug.getUserID());
+            User result = (User) uquery.uniqueResult();
+            System.out.println(result.getUserId());
             users.add(result);
         }
         return users;

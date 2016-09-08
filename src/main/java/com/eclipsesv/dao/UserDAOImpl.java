@@ -4,6 +4,9 @@ import com.eclipsesv.model.User;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by eclipse on 16/8/30.
  */
@@ -28,6 +31,17 @@ public class UserDAOImpl extends AbstractDAO implements UserDAO  {
                 createQuery("from User where USER_NAME=:name");
         query.setParameter("name", username);
         User result = (User) query.uniqueResult();
+        return result;
+    }
+
+    @Override
+    public List<User> listUsers() {
+        List<User> result = new ArrayList<>();
+        List users = getSession().createQuery("from User").list();
+        for (Object u:
+             users) {
+            result.add((User) u);
+        }
         return result;
     }
 }

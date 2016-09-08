@@ -15,6 +15,9 @@ import java.util.Date;
 @Table(name = "USER_GROUP")
 public class UserGroup {
     @Id
+    @Column(name = "MEM_ID", nullable = false)
+    private String memID;
+
     @Column(name = "GROUP_ID", nullable = false)
     private String groupID;
 
@@ -37,7 +40,7 @@ public class UserGroup {
     }
 
 
-    public String getUserName() {
+    public String getUserID() {
         return userName;
     }
 
@@ -66,10 +69,19 @@ public class UserGroup {
 
     }
 
-    public UserGroup(String gid, String gname, String uid, Date date, String roleid, String creatorID) {
+    public UserGroup(String mid, String gid, String gname, String uid, Date date, String roleid, String creatorID) {
+        this.memID = mid;
         this.groupID = gid;
         this.userName = uid;
         this.joinDate = date;
         this.role = roleid;
+    }
+
+    public String getMemID() {
+        return memID;
+    }
+
+    public void setMemID(String memID) {
+        this.memID = memID;
     }
 }

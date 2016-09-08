@@ -76,6 +76,8 @@ public class ShiroConfiguration {
         // anon：它对应的过滤器里面是空的,什么都没做
         logger.info("##################从数据库读取权限规则，加载到shiroFilter中##################");
         filterChainDefinitionMap.put("/", "authc");
+        filterChainDefinitionMap.put("/group", "authc");
+        filterChainDefinitionMap.put("/group/*", "authc");
         filterChainDefinitionMap.put("/200", "authc");
         filterChainDefinitionMap.put("/403", "authc");
         filterChainDefinitionMap.put("/user/edit/**", "authc,perms[user:edit]");// 这里为了测试，固定写死的值，也可以从数据库或其他配置中读取
