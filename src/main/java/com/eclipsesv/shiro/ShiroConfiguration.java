@@ -121,8 +121,6 @@ public class ShiroConfiguration {
     }
 
 
-
-
     @Bean(name = "casFilter")
     public CasFilter getCasFilter() {
         CasFilter casFilter = new CasFilter();
