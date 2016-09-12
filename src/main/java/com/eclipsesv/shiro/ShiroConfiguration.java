@@ -121,14 +121,6 @@ public class ShiroConfiguration {
     }
 
 
-
-    /**
-     * CAS过滤器
-     *
-     * @return
-     * @author SHANHY
-     * @create  2016年1月17日
-     */
     @Bean(name = "casFilter")
     public CasFilter getCasFilter() {
         CasFilter casFilter = new CasFilter();
