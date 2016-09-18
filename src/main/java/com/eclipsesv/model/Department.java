@@ -50,4 +50,8 @@ public class Department {
         this.departmentName = name;
         this.parentID = parentID;
     }
+
+    public Department() {
+
+    }
 }

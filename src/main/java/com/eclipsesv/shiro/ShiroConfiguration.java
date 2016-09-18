@@ -65,6 +65,8 @@ public class ShiroConfiguration {
         return filterRegistration;
     }
 
+
+    //修改此处的拦截方式 可以从数据库中读取路径
     private void loadShiroFilterChain(ShiroFilterFactoryBean shiroFilterFactoryBean){
         /////////////////////// 下面这些规则配置最好配置到配置文件中 ///////////////////////
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();

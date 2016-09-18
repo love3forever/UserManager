@@ -62,4 +62,8 @@ public class Role {
         this.describe = desc;
         this.rightID = rightID;
     }
+
+    public Role() {
+
+    }
 }

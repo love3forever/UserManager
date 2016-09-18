@@ -10,7 +10,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "RIGHT_TB")
-public class Right {
+public class Authority {
     @Id
     @Column(name = "RIGHT_ID")
     private String RightID;
@@ -58,10 +58,14 @@ public class Right {
     }
 
 
-    public Right(String id,int read,int write,int excute) {
+    public Authority(String id,int read,int write,int excute) {
         this.RightID = id;
         this.read = read;
         this.write = write;
         this.excute = excute;
+    }
+
+    public Authority() {
+
     }
 }
