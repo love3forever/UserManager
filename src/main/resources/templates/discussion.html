@@ -13,7 +13,7 @@
 				<div class="container">
 					<div class="navbar-header">
 						<a href="#" class="navbar-brand">
-							<img src="./static/img/title.jpg" style="height:25px" alt="Brand"></img>
+							<img src="../static/img/title.jpg" style="height:25px" alt="Brand"></img>
 						</a>
 					</div>
 					<div class="navbar-collapse collapse" role="navigation">
@@ -27,7 +27,7 @@
 								<ul class="dropdown-menu">
 									<li><a th:text="|当前登录用户: ${user.userName}|" href="#"></a></li>
 									<li class="divider"></li>
-									<li><a href="./logout">登出</a></li>
+									<li><a href="http://cas.eclipsesv.com:9000/logout">登出</a></li>
 									<li><a href="#">设置</a></li>
 								</ul>
 							</li>
@@ -48,19 +48,28 @@
 		    <img class="discussion-avatar" src="../static/img/avatar/Fruit-2.png"></img>
 		  </a>
 		  <div class="media-body">
-		    <h4 class="media-heading">Media heading</h4>
-		    如何正确使用oralce
-		    <div class="media">
+		    <h4 class="media-heading" th:text="${discussion.discussionName}"></h4>
+		    <h5 th:text="${discussion.desc}"></h5>
+		    <div class="media" th:each="comment,comstat:${comments}">
 		    	<a class="media-left" href="#">
 		    	  <img class="discussion-avatar" src="../static/img/avatar/Fruit-2.png"></img>
 		    	</a>
 		    	<div class="media-body">
-		    	  <h4 class="media-heading">Media heading</h4>
-		    	  百度和谷歌
+		    	  <h4 class="media-heading" th:text="${comment.ownerID}"></h4>
+		    	  <h5 th:text="${comment.content}"></h5>
 	    	  	</div>
 		    </div>
 		  </div>
 		</div>
+	</div>
+	<div class="row" id="content">
+		<form method="POST" th:action="@{'/comments/'+${discussion.discussionID}}" th:object="${newComment}">
+		    <div class="form-group">
+		        <label for="newContent">添加评论</label>
+		        <input type="text" th:field="*{content}" class="form-control" id="newContent"></input>
+		    </div>
+		    <button type="submit" class="btn btn-default">Submit</button>
+		</form>
 	</div>
 </div>
 </body>

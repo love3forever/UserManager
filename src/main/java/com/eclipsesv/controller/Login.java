@@ -1,8 +1,11 @@
 package com.eclipsesv.controller;
 
+import com.eclipsesv.dao.DiscussionDAOImpl;
 import com.eclipsesv.dao.GroupDAOImpl;
 import com.eclipsesv.dao.GroupUserDAOImpl;
 import com.eclipsesv.dao.UserDAOImpl;
+import com.eclipsesv.dao.authority.GroupAuthority;
+import com.eclipsesv.model.DiscussionGroup;
 import com.eclipsesv.model.Groups;
 import com.eclipsesv.model.User;
 import com.eclipsesv.model.UserGroup;
@@ -107,6 +110,22 @@ public class Login {
             Groups group = groupDAOImpl.findByID(groupid);
             model.addAttribute("groupid", group);
 
+            List<DiscussionGroup> discussions = discussionDAOImpl.listDiscussionByGroupID(groupid);
+            model.addAttribute("discussions", discussions);
+
+            DiscussionGroup discussionGroup = new DiscussionGroup();
+            model.addAttribute("newDiscuss", discussionGroup);
+
+            boolean isCreator = groupAuthority.isCreator(loginUser.getUserId(), groupid);
+            String creator;
+            if (isCreator) {
+                creator = "yes";
+            } else {
+                creator = "no";
+            }
+
+            model.addAttribute("isCreator", creator);
+
             return "group";
         }
         return "redirect:" + ShiroConfiguration.loginUrl;
@@ -205,5 +224,11 @@ public class Login {
 
     @Autowired
     private GroupDAOImpl groupDAOImpl;
+
+    @Autowired
+    private DiscussionDAOImpl discussionDAOImpl;
+
+    @Autowired
+    private GroupAuthority groupAuthority;
 
 }

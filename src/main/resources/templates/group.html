@@ -47,8 +47,10 @@
             <div class="panel-heading">分组信息</div>
             <div class="panel-body">
                 <h2 style="float:left" name="uniqueGroup" th:id="${groupid.groupID}" th:text="${groupid.groupName}"></h2>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="adduser">增加成员</button>
-
+                <div th:switch="${isCreator}">
+                    <button th:case="'yes'" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="adduser">增加成员</button>
+                    <button th:case="'no'" type="button" disabled="disabled" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="adduser">增加成员</button>
+                </div>
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aira-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -110,6 +112,62 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="row" id="grouppanel">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                所属分组
+            </div>
+            <div class="panel-body">
+                <div class="row">  
+                    <div class="groupitem" th:each="discuss,discussstat:${discussions}">
+                        <div class="thumbnail">
+                            <a th:href="@{'/discuss/'+${discuss.discussionID}}">
+                                <img src="../static/img/scenery-10.png" alt=""></img>
+                            </a>
+                            <div class="caption">
+                                <h3 th:text="${discuss.discussionName}"></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="groupitem">
+                        <div class="thumbnail">
+                            <img src="../static/img/scenery-1.png" alt=""></img>
+                            <div class="caption">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myDiscuss" id="adduser">创建讨论组</button>
+                                <div class="modal fade" id="myDiscuss" tabindex="-1" role="dialog" aira-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-lable="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-header" id="myModalLabel">新增讨论组</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="container-fluid">
+                                                    <form method="POST" th:action="@{'/newDiscussion/'+${groupid.groupID}}" th:object="${newDiscuss}">
+                                                        <div class="form-group">
+                                                            
+                                                            <label for="groupname">讨论组名</label>
+                                                            <input type="text" th:field="*{discussionName}" class="form-control" id="groupname"></input>
+                                                            <label for="desc">描述</label>
+                                                            <input type="text" th:field="*{desc}" class="form-control" id="desc"></input>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-default">Submit</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

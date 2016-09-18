@@ -26,6 +26,9 @@ public class Comments {
     @Column(name = "DISCUSSION_ID", nullable = false)
     private String discussionID;
 
+    @Column(name = "CONTENT", nullable = false)
+    private String content;
+
 
     public String getCommentid() {
         return commentid;
@@ -61,5 +64,13 @@ public class Comments {
 
     public Comments() {
 
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

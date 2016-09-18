@@ -4,6 +4,7 @@ import com.eclipsesv.dao.AbstractPublicDAO;
 import com.eclipsesv.dao.DiscussionDAO;
 import com.eclipsesv.model.*;
 import org.hibernate.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Objects;
 /**
  * Created by eclipse on 16/9/18.
  */
+@Repository("DiscussAuthDAO")
 public class DiscussionAuthority extends AbstractPublicDAO implements IAuthorizationControl {
     @Override
     public Role getRole(String userID, String id) {

@@ -14,4 +14,8 @@ public interface DiscussionDAO {
     void deleteDiscussion(String discussionID);
 
     List<User> listUsers(String discussionID);
+
+    List<DiscussionGroup> listDiscussionByGroupID(String groupID);
+
+    DiscussionGroup findByID(String id);
 }

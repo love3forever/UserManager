@@ -3,6 +3,7 @@ package com.eclipsesv.dao.authority;
 import com.eclipsesv.dao.AbstractPublicDAO;
 import com.eclipsesv.model.Authority;
 import com.eclipsesv.model.Role;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Objects;
@@ -10,6 +11,7 @@ import java.util.Objects;
 /**
  * Created by eclipse on 16/9/18.
  */
+@Repository("CommentAuthDAO")
 public class CommentAuthority extends AbstractPublicDAO implements IAuthorizationControl {
     @Override
     public Role getRole(String userID, String id) {
