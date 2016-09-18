@@ -9,63 +9,46 @@ import javax.persistence.Table;
  * Created by eclipse on 16/9/6.
  */
 @Entity
-@Table(name = "RIGHT_TB")
+@Table(name = "Authority_TB")
 public class Authority {
     @Id
-    @Column(name = "RIGHT_ID")
-    private String RightID;
+    @Column(name = "Authority_ID")
+    private int authority_ID;
 
-    @Column(name = "READ")
-    private int read;
+    @Column(name = "Authority_Name")
+    private String authority_Name;
 
-    @Column(name = "WRITE")
-    private int write;
-
-    @Column(name = "EXCUTE")
-    private int excute;
+    @Column(name = "Describe")
+    private String desc;
 
 
-    public String getRightID() {
-        return RightID;
-    }
 
-    public void setRightID(String rightID) {
-        RightID = rightID;
-    }
-
-    public int isRead() {
-        return read;
-    }
-
-    public void setRead(int read) {
-        this.read = read;
-    }
-
-    public int isWrite() {
-        return write;
-    }
-
-    public void setWrite(int write) {
-        this.write = write;
-    }
-
-    public int isExcute() {
-        return excute;
-    }
-
-    public void setExcute(int excute) {
-        this.excute = excute;
-    }
-
-
-    public Authority(String id,int read,int write,int excute) {
-        this.RightID = id;
-        this.read = read;
-        this.write = write;
-        this.excute = excute;
-    }
 
     public Authority() {
 
+    }
+
+    public int getAuthority_ID() {
+        return authority_ID;
+    }
+
+    public void setAuthority_ID(int authority_ID) {
+        this.authority_ID = authority_ID;
+    }
+
+    public String getAuthority_Name() {
+        return authority_Name;
+    }
+
+    public void setAuthority_Name(String authority_Name) {
+        this.authority_Name = authority_Name;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

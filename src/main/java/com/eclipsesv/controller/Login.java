@@ -125,7 +125,7 @@ public class Login {
                 newug.setGroupID(gid);
                 newug.setUserName(userArray[i]);
                 newug.setJoinDate(new Date());
-                newug.setRole("member");
+                newug.setRole(2);
                 groupUserDAOImpl.addMember(newug);
                 System.out.println("向"+gid+"添加用户"+userArray[i]);
             }
@@ -191,7 +191,7 @@ public class Login {
         userGroup.setUserName(loginUser.getUserId());
         userGroup.setGroupID(uuid.toString());
         userGroup.setJoinDate(new Date());
-        userGroup.setRole("admin");
+        userGroup.setRole(0);
         groupUserDAOImpl.addMember(userGroup);
         System.out.println("创建分组用户:"+loginUser.getUserName());
         return "redirect:/";
