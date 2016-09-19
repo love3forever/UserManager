@@ -1,17 +1,16 @@
 package com.eclipsesv.controller;
 
+import com.eclipsesv.dao.DiscussionDAOImpl;
 import com.eclipsesv.dao.GroupDAOImpl;
 import com.eclipsesv.dao.GroupUserDAOImpl;
 import com.eclipsesv.dao.UserDAOImpl;
+import com.eclipsesv.dao.authority.GroupAuthority;
+import com.eclipsesv.model.DiscussionGroup;
 import com.eclipsesv.model.Groups;
 import com.eclipsesv.model.User;
 import com.eclipsesv.model.UserGroup;
-import com.eclipsesv.shiro.MyShiroCasReaml;
 import com.eclipsesv.shiro.ShiroConfiguration;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.cas.CasRealm;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +110,22 @@ public class Login {
             Groups group = groupDAOImpl.findByID(groupid);
             model.addAttribute("groupid", group);
 
+            List<DiscussionGroup> discussions = discussionDAOImpl.listDiscussionByGroupID(groupid);
+            model.addAttribute("discussions", discussions);
+
+            DiscussionGroup discussionGroup = new DiscussionGroup();
+            model.addAttribute("newDiscuss", discussionGroup);
+
+            boolean isCreator = groupAuthority.isCreator(loginUser.getUserId(), groupid);
+            String creator;
+            if (isCreator) {
+                creator = "yes";
+            } else {
+                creator = "no";
+            }
+
+            model.addAttribute("isCreator", creator);
+
             return "group";
         }
         return "redirect:" + ShiroConfiguration.loginUrl;
@@ -129,7 +144,7 @@ public class Login {
                 newug.setGroupID(gid);
                 newug.setUserName(userArray[i]);
                 newug.setJoinDate(new Date());
-                newug.setRole("member");
+                newug.setRole(2);
                 groupUserDAOImpl.addMember(newug);
                 System.out.println("向"+gid+"添加用户"+userArray[i]);
             }
@@ -195,7 +210,7 @@ public class Login {
         userGroup.setUserName(loginUser.getUserId());
         userGroup.setGroupID(uuid.toString());
         userGroup.setJoinDate(new Date());
-        userGroup.setRole("admin");
+        userGroup.setRole(0);
         groupUserDAOImpl.addMember(userGroup);
         System.out.println("创建分组用户:"+loginUser.getUserName());
         return "redirect:/";
@@ -209,5 +224,11 @@ public class Login {
 
     @Autowired
     private GroupDAOImpl groupDAOImpl;
+
+    @Autowired
+    private DiscussionDAOImpl discussionDAOImpl;
+
+    @Autowired
+    private GroupAuthority groupAuthority;
 
 }

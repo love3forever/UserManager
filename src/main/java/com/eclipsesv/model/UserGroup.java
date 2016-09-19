@@ -28,7 +28,7 @@ public class UserGroup {
     private Date joinDate;
 
     @Column(name = "Role", nullable = false)
-    private String role;
+    private int role;
 
 
     public String getGroupID() {
@@ -56,11 +56,11 @@ public class UserGroup {
         this.joinDate = joinDate;
     }
 
-    public String getRole() {
+    public int getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(int role) {
         this.role = role;
     }
 
@@ -69,7 +69,7 @@ public class UserGroup {
 
     }
 
-    public UserGroup(String mid, String gid, String gname, String uid, Date date, String roleid, String creatorID) {
+    public UserGroup(String mid, String gid, String gname, String uid, Date date, int roleid, String creatorID) {
         this.memID = mid;
         this.groupID = gid;
         this.userName = uid;

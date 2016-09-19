@@ -45,6 +45,24 @@
 	margin-right: 100px;
 }
 
+#discussgroup {
+	margin-left: 100px;
+	margin-right: 100px;
+}
+
+#content {
+	margin-left: 100px;
+	margin-right: 100px;
+}
+
+#topic {
+	margin-left: 100px;
+	margin-right: 100px;
+}
+.discussion-avatar {
+	height: 30px;
+}
+
 #adduser {
 	float: left;
 	margin-left: 15px;

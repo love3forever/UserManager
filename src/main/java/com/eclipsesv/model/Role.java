@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class Role {
     @Id
     @Column(name = "ROLE_ID")
-    private String id;
+    private int id;
 
     @Column(name = "ROLE_NAME")
     private String name;
@@ -21,14 +21,11 @@ public class Role {
     @Column(name = "DESCIBRE")
     private String describe;
 
-    @Column(name = "RIGHT_ID")
-    private String rightID;
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -48,18 +45,13 @@ public class Role {
         this.describe = describe;
     }
 
-    public String getRightID() {
-        return rightID;
-    }
-
-    public void setRightID(String rightID) {
-        this.rightID = rightID;
-    }
-
-    public Role(String id, String name, String desc, String rightID) {
+    public Role(int id, String name, String desc, String rightID) {
         this.id = id;
         this.name = name;
         this.describe = desc;
-        this.rightID = rightID;
+    }
+
+    public Role() {
+
     }
 }

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" ></meta>
+	<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+	<link rel="stylesheet" href="/static/css/main.css"></link>
+</head>
+<body>
+<div class="container-fluid">
+	<div class="row">
+		<div class="container-fluid" id="title">
+			<div class="navbar navbar-inverse navbar-fixed-top" id="navheader">
+				<div class="container">
+					<div class="navbar-header">
+						<a href="#" class="navbar-brand">
+							<img src="../static/img/title.jpg" style="height:25px" alt="Brand"></img>
+						</a>
+					</div>
+					<div class="navbar-collapse collapse" role="navigation">
+						<ul class="nav navbar-nav">
+							<li><a href="http://cas.eclipsesv.com:9000">首页</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户
+									<span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li><a th:text="|当前登录用户: ${user.userName}|" href="#"></a></li>
+									<li class="divider"></li>
+									<li><a href="http://cas.eclipsesv.com:9000/logout">登出</a></li>
+									<li><a href="#">设置</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" id="pageheader">
+		<div class="page-header">
+			<h1>用户管理模块<small>科研开发室</small></h1>
+		</div>
+	</div>
+	<div class="row" id="topic">
+		<div class="media">
+		  <a class="media-left" href="#">
+		    <img class="discussion-avatar" src="../static/img/avatar/Fruit-2.png"></img>
+		  </a>
+		  <div class="media-body">
+		    <h4 class="media-heading" th:text="${discussion.discussionName}"></h4>
+		    <h5 th:text="${discussion.desc}"></h5>
+		    <div th:switch="${discussion.ownerID}" class="row">
+		    	<div style="margin-left:4px;" th:case="${user.userId}" class="row">
+		    		<button th:attr="name=${discussion.discussionID}" type="button" style="margin-left:15px;" class="editdiscuss btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
+		    		<button th:attr="id=${discussion.discussionID}" type="button" style="margin-left:10px;" class="deldiscuss btn btn-default btn-xs"><span class="glyphicon glyphicon-remove"></span>删除</button>
+		    	</div>
+		    </div>
+		    <div class="media" th:each="comment,comstat:${comments}">
+		    	<a class="media-left" href="#">
+		    	  <img class="discussion-avatar" src="../static/img/avatar/Fruit-2.png"></img>
+		    	</a>
+		    	<div class="media-body">
+		    	  <h4 class="media-heading" th:text="${comment.ownerName}"></h4>
+		    	  <h5 th:text="${comment.content}"></h5>
+		    	  <div th:switch="${comment.ownerID}" class="row">
+		    	  	<div style="margin-left:4px;" th:case="${user.userId}" class="row">
+		    	  		<button th:attr="name=${comment.commentid}" type="button" style="margin-left:15px;" class="editcomment btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
+		    	  		<button th:attr="id=${comment.commentid}" type="button" style="margin-left:10px;" class="delcomment btn btn-default btn-xs"><span class="glyphicon glyphicon-remove"></span>删除</button>
+		    	  	</div>
+		    	  </div>
+	    	  	</div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	<div class="row" id="content">
+		<form method="POST" th:action="@{'/comments/'+${discussion.discussionID}}" th:object="${newComment}">
+		    <div class="form-group">
+		        <label for="newContent">添加评论</label>
+		        <input type="text" th:field="*{content}" class="form-control" id="newContent"></input>
+		    </div>
+		    <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+	</div>
+</div>
+</body>
+<footer>
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script>
+		var responseValue;
+		$(".delcomment").bind("click",function(){
+		       var commentID = [];
+		       uniqueGroup = $(this).attr("id");
+		       commentID.push(uniqueGroup);
+		       $.ajax({
+		           url:"http://cas.eclipsesv.com:9000/comments/delete",
+		           data:JSON.stringify(commentID),
+		           type:"post",
+		           contentType: "application/json; charset=utf-8",
+		           dataType:"json",
+		           success:function(responseText){
+		           		var groupid = responseText.redirect;
+  						var url = "http://cas.eclipsesv.com:9000/discuss/"+groupid;
+  						window.location.href = url
+  					}
+		       });
+		     })
+		$(".deldiscuss").bind("click",function(){
+		       var commentID = [];
+		       uniqueGroup = $(this).attr("id");
+		       commentID.push(uniqueGroup);
+		       $.ajax({
+		           url:"http://cas.eclipsesv.com:9000/discuss/delete",
+		           data:JSON.stringify(commentID),
+		           type:"post",
+		           contentType: "application/json; charset=utf-8",
+		           dataType:"json",
+   		           success:function(responseText){
+   		           		var groupid = responseText.redirect;
+     						var url = "http://cas.eclipsesv.com:9000/group/"+groupid;
+     						window.location.href = url
+     					}
+		       });
+		     })
+	</script>
+</footer>
+</html>
