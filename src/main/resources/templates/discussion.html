@@ -91,6 +91,7 @@
 	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script>
+		var responseValue;
 		$(".delcomment").bind("click",function(){
 		       var commentID = [];
 		       uniqueGroup = $(this).attr("id");
@@ -100,10 +101,13 @@
 		           data:JSON.stringify(commentID),
 		           type:"post",
 		           contentType: "application/json; charset=utf-8",
-		           dataType:"json"
-		       }).done(function() {
-				  window.location.href="http://cas.eclipsesv.com:9000";
-				});
+		           dataType:"json",
+		           success:function(responseText){
+		           		var groupid = responseText.redirect;
+  						var url = "http://cas.eclipsesv.com:9000/discuss/"+groupid;
+  						window.location.href = url
+  					}
+		       });
 		     })
 		$(".deldiscuss").bind("click",function(){
 		       var commentID = [];
@@ -114,7 +118,12 @@
 		           data:JSON.stringify(commentID),
 		           type:"post",
 		           contentType: "application/json; charset=utf-8",
-		           dataType:"json"
+		           dataType:"json",
+   		           success:function(responseText){
+   		           		var groupid = responseText.redirect;
+     						var url = "http://cas.eclipsesv.com:9000/group/"+groupid;
+     						window.location.href = url
+     					}
 		       });
 		     })
 	</script>

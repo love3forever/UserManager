@@ -6,17 +6,15 @@ import com.eclipsesv.model.DiscussionGroup;
 import com.eclipsesv.model.Groups;
 import com.eclipsesv.model.User;
 import com.eclipsesv.shiro.ShiroConfiguration;
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-import com.sun.xml.internal.bind.v2.model.core.ID;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 /**
  * Created by eclipse on 16/9/18.
@@ -83,31 +81,37 @@ public class Discussion {
 
     @RequestMapping(value = "/comments/delete",method = RequestMethod.POST)
     @ResponseBody
-    public String delComment(@RequestBody String[] userArray){
+    public Map<String, String>  delComment(@RequestBody String[] userArray){
         ControllerHelper helper = new ControllerHelper(userDAOImpl, groupUserDAOImpl, groupDAOImpl,
                 discussionDAOImpl,commentDAOImpl);
         if (userArray[0] != null) {
             String groupid = helper.delComment(userArray[0]);
             System.out.println(userArray[0]+"评论已删除");
-            return "redirect:/discuss/"+groupid;
+            Map<String, String> result = new HashMap<String, String>();
+            result.put("redirect", groupid);
+            return result;
         }
         else
-            return "403";
+            return null;
     }
 
 
     @RequestMapping(value = "/discuss/delete",method = RequestMethod.POST)
     @ResponseBody
-    public String delDiscuss(@RequestBody String[] userArray) {
+    public Map<String,String> delDiscuss(@RequestBody String[] userArray) {
         ControllerHelper helper = new ControllerHelper(userDAOImpl, groupUserDAOImpl, groupDAOImpl,
                 discussionDAOImpl,commentDAOImpl);
+        Map<String, String> result = new HashMap<String, String>();
         if (userArray[0] != null) {
             String groupid = helper.delDiscussionGroup(userArray[0]);
-            System.out.println(userArray[0]+"讨论组已删除");
-            return "redirect:/group/"+groupid;
+            System.out.println(userArray[0] + "讨论组已删除");
+
+            result.put("redirect", groupid);
+            return result;
+        } else {
+            result.put("redirect", "/");
+            return result;
         }
-        else
-            return "403";
     }
 
 
