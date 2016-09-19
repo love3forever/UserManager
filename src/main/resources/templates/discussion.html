@@ -50,6 +50,12 @@
 		  <div class="media-body">
 		    <h4 class="media-heading" th:text="${discussion.discussionName}"></h4>
 		    <h5 th:text="${discussion.desc}"></h5>
+		    <div th:switch="${discussion.ownerID}" class="row">
+		    	<div style="margin-left:4px;" th:case="${user.userId}" class="row">
+		    		<button type="button" style="margin-left:15px;" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
+		    		<button type="button" style="margin-left:10px;" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-remove"></span>删除</button>
+		    	</div>
+		    </div>
 		    <div class="media" th:each="comment,comstat:${comments}">
 		    	<a class="media-left" href="#">
 		    	  <img class="discussion-avatar" src="../static/img/avatar/Fruit-2.png"></img>
@@ -57,6 +63,12 @@
 		    	<div class="media-body">
 		    	  <h4 class="media-heading" th:text="${comment.ownerID}"></h4>
 		    	  <h5 th:text="${comment.content}"></h5>
+		    	  <div th:switch="${comment.ownerID}" class="row">
+		    	  	<div style="margin-left:4px;" th:case="${user.userId}" class="row">
+		    	  		<button type="button" style="margin-left:15px;" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
+		    	  		<button type="button" style="margin-left:10px;" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-remove"></span>删除</button>
+		    	  	</div>
+		    	  </div>
 	    	  	</div>
 		    </div>
 		  </div>
