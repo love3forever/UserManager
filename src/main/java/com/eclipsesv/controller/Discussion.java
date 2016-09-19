@@ -6,14 +6,14 @@ import com.eclipsesv.model.DiscussionGroup;
 import com.eclipsesv.model.Groups;
 import com.eclipsesv.model.User;
 import com.eclipsesv.shiro.ShiroConfiguration;
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 import com.sun.xml.internal.bind.v2.model.core.ID;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -76,8 +76,38 @@ public class Discussion {
         System.out.println(id);
         ControllerHelper helper = new ControllerHelper(userDAOImpl, groupUserDAOImpl, groupDAOImpl,
                 discussionDAOImpl,commentDAOImpl);
-        helper.newComment(newComment, helper.getCurrentUser().getUserId(), id);
+        helper.newComment(newComment, helper.getCurrentUser().getUserId(),helper.getCurrentUser().getUserName(), id);
         return "redirect:/discuss/"+id;
+    }
+
+
+    @RequestMapping(value = "/comments/delete",method = RequestMethod.POST)
+    @ResponseBody
+    public String delComment(@RequestBody String[] userArray){
+        ControllerHelper helper = new ControllerHelper(userDAOImpl, groupUserDAOImpl, groupDAOImpl,
+                discussionDAOImpl,commentDAOImpl);
+        if (userArray[0] != null) {
+            String groupid = helper.delComment(userArray[0]);
+            System.out.println(userArray[0]+"评论已删除");
+            return "redirect:/discuss/"+groupid;
+        }
+        else
+            return "403";
+    }
+
+
+    @RequestMapping(value = "/discuss/delete",method = RequestMethod.POST)
+    @ResponseBody
+    public String delDiscuss(@RequestBody String[] userArray) {
+        ControllerHelper helper = new ControllerHelper(userDAOImpl, groupUserDAOImpl, groupDAOImpl,
+                discussionDAOImpl,commentDAOImpl);
+        if (userArray[0] != null) {
+            String groupid = helper.delDiscussionGroup(userArray[0]);
+            System.out.println(userArray[0]+"讨论组已删除");
+            return "redirect:/group/"+groupid;
+        }
+        else
+            return "403";
     }
 
 

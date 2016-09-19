@@ -3,12 +3,10 @@ package com.eclipsesv.controller;
 import com.eclipsesv.dao.*;
 import com.eclipsesv.model.Comments;
 import com.eclipsesv.model.DiscussionGroup;
-import com.eclipsesv.model.Groups;
 import com.eclipsesv.model.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.List;
@@ -44,7 +42,13 @@ public class ControllerHelper {
         discussionDAOImpl.newDiscussion(newGroup);
     }
 
-    public void newComment(Comments comments,String userID,String discussionID) {
+    public String delDiscussionGroup(String id) {
+        String groupid = discussionDAOImpl.findByID(id).getGroupID();
+        discussionDAOImpl.deleteDiscussion(id);
+        return groupid;
+    }
+
+    public void newComment(Comments comments,String userID,String userName,String discussionID) {
         UUID uuid = UUID.randomUUID();
         Comments addComment = new Comments();
         addComment.setCommentid(uuid.toString());
@@ -52,8 +56,15 @@ public class ControllerHelper {
         addComment.setOwnerID(userID);
         addComment.setCommentTime(new Date());
         addComment.setContent(comments.getContent());
-
+        addComment.setOwnerName(userName);
         commentDAOImpl.newComment(addComment);
+    }
+
+
+    public String delComment(String commentid){
+        String groupid = commentDAOImpl.findByID(commentid).getDiscussionID();
+        commentDAOImpl.deleteComment(commentid);
+        return groupid;
     }
 
     public DiscussionGroup getDiscussionGroup(String id) {
@@ -61,7 +72,7 @@ public class ControllerHelper {
     }
 
     public List<Comments> getComments(String id) {
-        return commentDAOImpl.findByID(id);
+        return commentDAOImpl.findByGroupID(id);
     }
 
     public ControllerHelper(UserDAOImpl userDAO, GroupUserDAOImpl groupUserDAOImpl, GroupDAOImpl groupDAOImpl) {

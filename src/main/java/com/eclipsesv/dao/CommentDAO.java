@@ -12,5 +12,9 @@ public interface CommentDAO {
 
     void deleteComment(String commentID);
 
-    List<Comments> findByID(String id);
+    //通过讨论组的id 获取它全部的评论内容
+    List<Comments> findByGroupID(String id);
+
+    //通过评论id获取到评论
+    Comments findByID(String id);
 }

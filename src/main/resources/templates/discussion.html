@@ -52,8 +52,8 @@
 		    <h5 th:text="${discussion.desc}"></h5>
 		    <div th:switch="${discussion.ownerID}" class="row">
 		    	<div style="margin-left:4px;" th:case="${user.userId}" class="row">
-		    		<button type="button" style="margin-left:15px;" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
-		    		<button type="button" style="margin-left:10px;" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-remove"></span>删除</button>
+		    		<button th:attr="name=${discussion.discussionID}" type="button" style="margin-left:15px;" class="editdiscuss btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
+		    		<button th:attr="id=${discussion.discussionID}" type="button" style="margin-left:10px;" class="deldiscuss btn btn-default btn-xs"><span class="glyphicon glyphicon-remove"></span>删除</button>
 		    	</div>
 		    </div>
 		    <div class="media" th:each="comment,comstat:${comments}">
@@ -61,12 +61,12 @@
 		    	  <img class="discussion-avatar" src="../static/img/avatar/Fruit-2.png"></img>
 		    	</a>
 		    	<div class="media-body">
-		    	  <h4 class="media-heading" th:text="${comment.ownerID}"></h4>
+		    	  <h4 class="media-heading" th:text="${comment.ownerName}"></h4>
 		    	  <h5 th:text="${comment.content}"></h5>
 		    	  <div th:switch="${comment.ownerID}" class="row">
 		    	  	<div style="margin-left:4px;" th:case="${user.userId}" class="row">
-		    	  		<button type="button" style="margin-left:15px;" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
-		    	  		<button type="button" style="margin-left:10px;" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-remove"></span>删除</button>
+		    	  		<button th:attr="name=${comment.commentid}" type="button" style="margin-left:15px;" class="editcomment btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span>编辑</button>
+		    	  		<button th:attr="id=${comment.commentid}" type="button" style="margin-left:10px;" class="delcomment btn btn-default btn-xs"><span class="glyphicon glyphicon-remove"></span>删除</button>
 		    	  	</div>
 		    	  </div>
 	    	  	</div>
@@ -90,5 +90,33 @@
 	<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script>
+		$(".delcomment").bind("click",function(){
+		       var commentID = [];
+		       uniqueGroup = $(this).attr("id");
+		       commentID.push(uniqueGroup);
+		       $.ajax({
+		           url:"http://cas.eclipsesv.com:9000/comments/delete",
+		           data:JSON.stringify(commentID),
+		           type:"post",
+		           contentType: "application/json; charset=utf-8",
+		           dataType:"json"
+		       }).done(function() {
+				  window.location.href="http://cas.eclipsesv.com:9000";
+				});
+		     })
+		$(".deldiscuss").bind("click",function(){
+		       var commentID = [];
+		       uniqueGroup = $(this).attr("id");
+		       commentID.push(uniqueGroup);
+		       $.ajax({
+		           url:"http://cas.eclipsesv.com:9000/discuss/delete",
+		           data:JSON.stringify(commentID),
+		           type:"post",
+		           contentType: "application/json; charset=utf-8",
+		           dataType:"json"
+		       });
+		     })
+	</script>
 </footer>
 </html>

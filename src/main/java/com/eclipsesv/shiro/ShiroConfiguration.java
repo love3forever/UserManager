@@ -80,6 +80,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/", "authc");
         filterChainDefinitionMap.put("/group", "authc");
         filterChainDefinitionMap.put("/group/*", "authc");
+        filterChainDefinitionMap.put("/discuss/*", "authc");
         filterChainDefinitionMap.put("/200", "authc");
         filterChainDefinitionMap.put("/403", "authc");
         filterChainDefinitionMap.put("/user/edit/**", "authc,perms[user:edit]");// 这里为了测试，固定写死的值，也可以从数据库或其他配置中读取

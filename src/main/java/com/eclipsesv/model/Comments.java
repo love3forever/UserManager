@@ -29,6 +29,9 @@ public class Comments {
     @Column(name = "CONTENT", nullable = false)
     private String content;
 
+    @Column(name = "OWNER_NAME", nullable = false)
+    private String ownerName;
+
 
     public String getCommentid() {
         return commentid;
@@ -72,5 +75,13 @@ public class Comments {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }
